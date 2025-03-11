@@ -1,0 +1,25 @@
+ configuration delta "MouseRadar"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Radar.java>
+		{
+	addClassifierImport(<class:jab.module.Radar>, "java.awt.event.InputEvent");
+	addClassifierImport(<class:jab.module.Radar>, "java.awt.event.MouseEvent");
+	addClassifierImport(<class:jab.module.Radar>, "robocode.util.Utils");
+	addMember(<class:jab.module.Radar>, "int aimX;
+");
+	addMember(<class:jab.module.Radar>, "int aimY;
+");
+	modifyStatementListContainer(<method:jab.module.Radar.scan()>, "public void scan() {
+    		double angle = Utils.normalAbsoluteAngle(Math.atan2(aimX - bot.getX(), aimY - bot.getY()));
+			bot.setTurnRadarRightRadians(Utils.normalRelativeAngle(angle - bot.getRadarHeadingRadians()));
+	}
+", "MouseRadar", false);
+	addMember(<class:jab.module.Radar>, "public void listenInput(InputEvent e) {
+				if (e instanceof MouseEvent) {
+					aimX = ((MouseEvent) e).getX();
+					aimY = ((MouseEvent) e).getY();
+				}
+			}
+");
+	}
+	

@@ -1,0 +1,10 @@
+ configuration delta "Quiet"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Movement.java>
+		{
+	modifyStatementListContainer(<method:jab.module.Movement.move()>, "public void move() {
+			bot.setAhead(0.0001);
+	}
+", "Quiet", false);
+	}
+	

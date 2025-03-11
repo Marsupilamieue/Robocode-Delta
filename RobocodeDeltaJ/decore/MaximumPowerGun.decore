@@ -1,0 +1,26 @@
+ configuration delta "MaximumPowerGun"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Gun.java>
+		{
+	addClassifierImport(<class:jab.module.Gun>, "robocode.Rules");
+	addClassifierImport(<class:jab.module.Gun>, "robocode.Bullet");
+	modifyStatementListContainer(<method:jab.module.Gun.fire()>, "public void fire() {
+            if (bot.enemy != null) {
+                double bulletPower = Rules.MAX_BULLET_POWER;
+                double energyMinusReserve = bot.getEnergy() - 0.01;
+                if (energyMinusReserve < bulletPower) {
+                    bulletPower = energyMinusReserve;
+                }
+                if (bot.enemy.energy == 0) {
+                    bulletPower = 0;
+                }
+                bot.bulletPower = bulletPower;
+                if (bot.getGunHeat() == 0) {
+                    Bullet b = bot.setFireBullet(bulletPower);
+                    bot.registerBullet(b);
+                }
+            }
+	}
+", "MaximumPowerGun", false);
+	}
+	

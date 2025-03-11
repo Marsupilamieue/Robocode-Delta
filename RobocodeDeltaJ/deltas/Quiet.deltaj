@@ -1,0 +1,11 @@
+delta Quiet {	
+
+	modifies jab.module.Movement {
+	
+		modifies move() {
+			bot.setAhead(0.0001);
+		}
+		
+	}
+
+}

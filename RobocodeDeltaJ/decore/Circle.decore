@@ -1,0 +1,20 @@
+ configuration delta "Circle"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Movement.java>
+		{
+	addMember(<class:jab.module.Movement>, "private boolean toggleDirection = true;
+");
+	modifyStatementListContainer(<method:jab.module.Movement.move()>, "public void move() {
+			bot.setMaxVelocity(8);
+	        bot.setAhead(100); 
+	        
+	        if (toggleDirection) {
+	            bot.setTurnRight(45);
+	        } else {
+	            bot.setTurnLeft(45); 
+	        }
+	        toggleDirection = !toggleDirection;
+	}
+", "Circle", false);
+	}
+	

@@ -1,0 +1,10 @@
+ configuration delta "SpinningRadar"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Radar.java>
+		{
+	modifyStatementListContainer(<method:jab.module.Radar.scan()>, "public void scan() {
+			bot.setTurnRadarRightRadians(Double.POSITIVE_INFINITY + 1);
+	}
+", "SpinningRadar", false);
+	}
+	

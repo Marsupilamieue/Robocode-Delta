@@ -1,0 +1,23 @@
+delta WeakestSelectEnemy {
+
+	modifies jab.module.SelectEnemy {
+	
+		adds import java.util.Iterator;
+		adds import jab.module.BotInfo;
+	
+		modifies select() {
+			Iterator<BotInfo> iterator= bot.botsInfo.values().iterator();
+			double minEnergy= Double.MAX_VALUE;
+			BotInfo selected=null;
+			while (iterator.hasNext()){
+				BotInfo e= iterator.next();
+				if (minEnergy>e.energy){
+					selected=e;
+					minEnergy=e.energy;
+				}				
+			}
+			bot.enemy=selected;
+		}
+		
+	}
+}

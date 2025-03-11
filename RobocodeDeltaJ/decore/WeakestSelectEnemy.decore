@@ -1,0 +1,22 @@
+ configuration delta "WeakestSelectEnemy"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/SelectEnemy.java>
+		{
+	addClassifierImport(<class:jab.module.SelectEnemy>, "java.util.Iterator");
+	addClassifierImport(<class:jab.module.SelectEnemy>, "jab.module.BotInfo");
+	modifyStatementListContainer(<method:jab.module.SelectEnemy.select()>, "public void select() {
+			Iterator<BotInfo> iterator= bot.botsInfo.values().iterator();
+			double minEnergy= Double.MAX_VALUE;
+			BotInfo selected=null;
+			while (iterator.hasNext()){
+				BotInfo e= iterator.next();
+				if (minEnergy>e.energy){
+					selected=e;
+					minEnergy=e.energy;
+				}				
+			}
+			bot.enemy=selected;
+	}
+", "WeakestSelectEnemy", false);
+	}
+	

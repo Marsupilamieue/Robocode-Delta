@@ -1,0 +1,27 @@
+delta MouseRadar {
+	modifies jab.module.Radar {
+
+		adds import java.awt.event.InputEvent;
+		adds import java.awt.event.MouseEvent;
+
+		adds import robocode.util.Utils;
+		
+		adds int aimX;
+		adds int aimY;
+    	
+    	modifies scan() {
+    		double angle = Utils.normalAbsoluteAngle(Math.atan2(aimX - bot.getX(), aimY - bot.getY()));
+			bot.setTurnRadarRightRadians(Utils.normalRelativeAngle(angle - bot.getRadarHeadingRadians()));
+		}
+		 
+		adds public void listenInput(InputEvent e) {
+				if (e instanceof MouseEvent) {
+					aimX = ((MouseEvent) e).getX();
+					aimY = ((MouseEvent) e).getY();
+				}
+			}
+		
+    	
+        
+    }
+}
