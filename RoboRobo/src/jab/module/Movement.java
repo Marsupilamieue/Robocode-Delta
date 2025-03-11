@@ -14,7 +14,17 @@ public class Movement extends Part {
 	}
 
 	public void move() {
-		bot.setAhead(0.0001);
+		bot.setMaxVelocity(8);
+		bot.setAhead(100);
+
+		if (toggleDirection) {
+			bot.setTurnRight(45);
+		} else {
+			bot.setTurnLeft(45);
+		}
+		toggleDirection = !toggleDirection;
 	}
+
+	private boolean toggleDirection = true;
 
 }
