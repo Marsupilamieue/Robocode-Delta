@@ -1,6 +1,7 @@
 package jab.module;
 
 import java.util.Iterator;
+import jab.module.BotInfo;
 
 /**
  * Select enemy
