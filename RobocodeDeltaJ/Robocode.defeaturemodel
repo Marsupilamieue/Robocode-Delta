@@ -15,8 +15,8 @@
           <features maxCardinality="1" name="AutoMovement">
             <groups minCardinality="1" maxCardinality="1">
               <features maxCardinality="1" name="Cornering"/>
-              <features maxCardinality="1" name="Circle"/>
               <features maxCardinality="1" name="Line"/>
+              <features maxCardinality="1" name="Triangle"/>
             </groups>
           </features>
         </groups>

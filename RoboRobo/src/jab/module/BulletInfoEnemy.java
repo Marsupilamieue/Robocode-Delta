@@ -8,6 +8,7 @@ import java.io.Serializable;
  * 
  * @author jab
  */
+@SuppressWarnings("unused")
 public  class  BulletInfoEnemy  extends Point2D.Double  implements Serializable {
 	
 

@@ -7,24 +7,21 @@ package jab.module;
  */
 public class Movement extends Part {
 
-	public Module bot;
+    public Module bot;
+    private int step = 0; // To track movement steps
 
-	public Movement(Module bot) {
-		this.bot = bot;
-	}
+    public Movement(Module bot) {
+        this.bot = bot;
+    }
 
-	public void move() {
-		bot.setMaxVelocity(8);
-		bot.setAhead(100);
+    public void move() {
+        bot.setMaxVelocity(8);
+        bot.setAhead(100);
 
-		if (toggleDirection) {
-			bot.setTurnRight(45);
-		} else {
-			bot.setTurnLeft(45);
-		}
-		toggleDirection = !toggleDirection;
-	}
+        if (step % 3 == 0) {
+            bot.setTurnRight(120);
+        }
 
-	private boolean toggleDirection = true;
-
+        step++;
+    }
 }

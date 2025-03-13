@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
  * 
  * @author jab
  */
+@SuppressWarnings("unused")
 public  class  BotInfo  extends Point2D.Double  implements java.io.Serializable {
 	
 
