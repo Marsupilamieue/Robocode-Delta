@@ -15,16 +15,16 @@ public class Movement extends Part {
 
 	public void move() {
 		bot.setMaxVelocity(8);
-		bot.setAhead(100);
-
-		if (toggleDirection) {
-			bot.setTurnRight(45);
-		} else {
-			bot.setTurnLeft(45);
-		}
-		toggleDirection = !toggleDirection;
+		bot.setAhead(10000);
 	}
 
-	private boolean toggleDirection = true;
+	private int moveDirection;
+	private int turnRightValue = 45;
+
+	public void listen(robocode.Event e) {
+		if (e instanceof robocode.HitWallEvent) {
+			bot.setTurnRight(turnRightValue);
+		}
+	}
 
 }
