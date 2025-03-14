@@ -1,0 +1,10 @@
+delta NoFireGun {
+
+    modifies jab.module.Gun {
+    
+        modifies fire() {
+            // Do nothing, preventing the bot from firing.
+        }
+        
+    }
+}
