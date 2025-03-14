@@ -2,7 +2,7 @@ package jab.module;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
+import java.util.Random;
 import robocode.util.Utils;
 
 /**
@@ -19,34 +19,46 @@ public class Targeting extends Part {
 	}
 
 	public void target() {
+		double enemyX, enemyY;
 		if (bot.enemy != null) {
-			double myX = bot.getX();
-			double myY = bot.getY();
-			double enemyX = bot.enemy.x;
-			double enemyY = bot.enemy.y;
-			double enemyHeading = bot.enemy.headingRadians;
-			double enemyVelocity = bot.enemy.velocity;
-
-			double deltaTime = 0;
-			double battleFieldHeight = bot.getBattleFieldHeight(), battleFieldWidth = bot.getBattleFieldWidth();
-			double predictedX = enemyX, predictedY = enemyY;
-			while ((++deltaTime) * (20.0 - 3.0 * bot.bulletPower) < Point2D.Double.distance(myX, myY, predictedX,
-					predictedY)) {
-				predictedX += Math.sin(enemyHeading) * enemyVelocity;
-				predictedY += Math.cos(enemyHeading) * enemyVelocity;
-				if (predictedX < 18.0 || predictedY < 18.0 || predictedX > battleFieldWidth - 18.0
-						|| predictedY > battleFieldHeight - 18.0) {
-					predictedX = Math.min(Math.max(18.0, predictedX), battleFieldWidth - 18.0);
-					predictedY = Math.min(Math.max(18.0, predictedY), battleFieldHeight - 18.0);
-					break;
-				}
-			}
-			double theta = Utils.normalAbsoluteAngle(Math.atan2(predictedX - bot.getX(), predictedY - bot.getY()));
-			bot.setTurnGunRightRadians(Utils.normalRelativeAngle(theta - bot.getGunHeadingRadians()));
-
-			toPaintX = (int) predictedX;
-			toPaintY = (int) predictedY;
+			enemyX = bot.enemy.x;
+			enemyY = bot.enemy.y;
+			lastSeenTime = System.currentTimeMillis();
+			lastKnownX = enemyX;
+			lastKnownY = enemyY;
+			enemyVelocity = bot.enemy.velocity; // Simpan kecepatan musuh
+		} else if (System.currentTimeMillis() - lastSeenTime < 3000) {
+			enemyX = lastKnownX + (random.nextDouble() - 0.5) * 40;
+			enemyY = lastKnownY + (random.nextDouble() - 0.5) * 40;
+		} else {
+			return; // No target available
 		}
+
+		double randomOffsetX = calculateOffset();
+		double randomOffsetY = calculateOffset();
+
+		double targetX = enemyX + randomOffsetX;
+		double targetY = enemyY + randomOffsetY;
+
+		targetX = Math.min(Math.max(18.0, targetX), bot.getBattleFieldWidth() - 18.0);
+		targetY = Math.min(Math.max(18.0, targetY), bot.getBattleFieldHeight() - 18.0);
+
+		double theta = Utils.normalAbsoluteAngle(Math.atan2(targetX - bot.getX(), targetY - bot.getY()));
+		bot.setTurnGunRightRadians(Utils.normalRelativeAngle(theta - bot.getGunHeadingRadians()));
+
+		toPaintX = (int) targetX;
+		toPaintY = (int) targetY;
+	}
+
+	private Random random = new Random();
+	private long lastSeenTime = 0;
+	private double lastKnownX = 0;
+	private double lastKnownY = 0;
+	private double enemyVelocity = 0;
+
+	private double calculateOffset() {
+		double speedFactor = Math.min(1, enemyVelocity / 8.0);
+		return (random.nextDouble() - 0.5) * (30 + speedFactor * 50);
 	}
 
 	int toPaintX = 0;
@@ -54,7 +66,7 @@ public class Targeting extends Part {
 
 	public void onPaint(Graphics2D g) {
 		if (bot.enemy != null) {
-			g.setColor(Color.red);
+			g.setColor(Color.BLUE);
 			g.drawOval(toPaintX - 4, toPaintY - 4, 8, 8);
 			g.drawLine(toPaintX - 6, toPaintY, toPaintX + 6, toPaintY);
 			g.drawLine(toPaintX, toPaintY - 6, toPaintX, toPaintY + 6);

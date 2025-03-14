@@ -1,5 +1,8 @@
 package jab.module;
 
+import java.util.Iterator;
+import jab.module.BotInfo;
+
 /**
  * Select enemy
  * 
@@ -15,18 +18,16 @@ public class SelectEnemy extends Part {
 	}
 
 	public void select() {
-		java.util.Iterator<jab.module.BotInfo> iterator = bot.botsInfo.values().iterator();
-		double minDistance = Double.MAX_VALUE;
-		jab.module.BotInfo selected = null;
-
+		Iterator<BotInfo> iterator = bot.botsInfo.values().iterator();
+		double maxEnergy = Double.MIN_VALUE;
+		BotInfo selected = null;
 		while (iterator.hasNext()) {
-			jab.module.BotInfo botInfo = iterator.next();
-			if ((!botInfo.teammate) && minDistance > botInfo.distance) {
-				selected = botInfo;
-				minDistance = botInfo.distance;
+			BotInfo e = iterator.next();
+			if (maxEnergy < e.energy) {
+				selected = e;
+				maxEnergy = e.energy;
 			}
 		}
-
 		bot.enemy = selected;
 	}
 
