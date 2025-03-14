@@ -13,6 +13,9 @@
 "MouseClickGun":
 <decore/MouseClickGun.decore>
 
+"NoFireGun":
+<decore/NoFireGun.decore>
+
 "AdaptiveChargeGun":
 <decore/AdaptiveChargeGun.decore>
 
@@ -22,11 +25,17 @@
 "LinearTargeting":
 <decore/LinearTargeting.decore>
 
+"HeadOnTargeting":
+<decore/HeadOnTargeting.decore>
+
 "MouseTargeting":
 <decore/MouseTargeting.decore>
 
 "WeakestSelectEnemy":
 <decore/WeakestSelectEnemy.decore>
+
+"StrongestSelectEnemy":
+<decore/StrongestSelectEnemy.decore>
 
 "ClosestSelectEnemy":
 <decore/ClosestSelectEnemy.decore>
@@ -39,3 +48,6 @@
 
 "Triangle":
 <decore/Triangle.decore>
+
+"Line":
+<decore/Line.decore>
