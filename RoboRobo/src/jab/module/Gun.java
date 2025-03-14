@@ -1,8 +1,7 @@
 package jab.module;
 
+import robocode.Rules;
 import robocode.Bullet;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 
 /**
  * Gun
@@ -19,32 +18,35 @@ public class Gun extends Part {
 	}
 
 	public void fire() {
-		if (bot.bulletPower > 0 && bot.getGunHeat() == 0) {
-			Bullet b = bot.setFireBullet(bot.bulletPower);
-			bot.registerBullet(b);
-		}
-	}
+		if (bot.enemy != null) {
+			double bulletPower;
 
-	public void listenInput(InputEvent e) {
-		if (e instanceof MouseEvent) {
-			MouseEvent me = (MouseEvent) e;
+			// Adjust bullet power based on bot's energy and enemy's energy
+			if (bot.getEnergy() < 20) {
+				bulletPower = Rules.MIN_BULLET_POWER; // Minimum power to conserve energy
+			} else if (bot.enemy.energy < 20) {
+				bulletPower = Rules.MAX_BULLET_POWER; // Maximum power to finish off the enemy
+			} else {
+				bulletPower = Math.min(Rules.MAX_BULLET_POWER, bot.getEnergy() / 10); // Adaptive power
+			}
 
-			if (me.getID() == MouseEvent.MOUSE_PRESSED) {
-				switch (me.getButton()) {
-				case MouseEvent.BUTTON3:
-					bot.bulletPower = 3;
-					break;
-				case MouseEvent.BUTTON2:
-					bot.bulletPower = 2;
-					break;
-				case MouseEvent.BUTTON1:
-					bot.bulletPower = 1;
-					break;
-				}
-			} else if (me.getID() == MouseEvent.MOUSE_RELEASED) {
-				bot.bulletPower = 0;
+			// Ensure there is enough energy before firing
+			bulletPower = Math.min(bulletPower, bot.getEnergy() - 0.1);
+
+			// Add charge level to bullet power
+			bulletPower = Math.min(Rules.MAX_BULLET_POWER, bulletPower + chargeLevel);
+
+			bot.bulletPower = bulletPower;
+			if (bot.getGunHeat() == 0) {
+				Bullet b = bot.setFireBullet(bulletPower);
+				bot.registerBullet(b);
+				chargeLevel = 0; // Reset charge level after firing
+			} else {
+				chargeLevel += 0.1; // Increase charge level when not firing
 			}
 		}
 	}
+
+	private double chargeLevel = 0;
 
 }

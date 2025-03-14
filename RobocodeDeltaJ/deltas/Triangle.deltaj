@@ -1,0 +1,18 @@
+delta Triangle {
+    modifies jab.module.Movement {
+        
+        adds private int step = 0;
+        
+        modifies move() {
+            bot.setMaxVelocity(8);
+            bot.setAhead(100);
+            
+            if (step % 3 == 0) {
+                bot.setTurnRight(120);
+            }
+            
+            step++;
+        }
+        
+    }
+}
