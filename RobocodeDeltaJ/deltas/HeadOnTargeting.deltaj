@@ -1,18 +1,39 @@
 delta HeadOnTargeting {
     modifies jab.module.Targeting {
 
+        adds import java.awt.Color;
+        adds import java.awt.Graphics2D;
         adds import robocode.util.Utils;
 
         modifies target() {
-            double enemyX = bot.getX();
-            double enemyY = bot.getY();
-            
-            double angle = Utils.normalAbsoluteAngle(
-                Math.atan2(enemyX - bot.getX(), enemyY - bot.getY())
-            );
-            bot.setTurnGunRightRadians(
-                Utils.normalRelativeAngle(angle - bot.getGunHeadingRadians())
-            );
+            if (bot.enemy != null) {
+                double enemyX = bot.enemy.x;
+                double enemyY = bot.enemy.y;
+
+                double angle = Utils.normalAbsoluteAngle(
+                    Math.atan2(enemyX - bot.getX(), enemyY - bot.getY())
+                );
+
+                bot.setTurnGunRightRadians(
+                    Utils.normalRelativeAngle(angle - bot.getGunHeadingRadians())
+                );
+
+                toPaintX = (int) enemyX;
+                toPaintY = (int) enemyY;
+            }
+        }
+
+        adds int toPaintX = 0;
+        adds int toPaintY = 0;
+
+        adds public void onPaint(Graphics2D g) {
+            if (bot.enemy != null) {
+                g.setColor(Color.GREEN);
+                g.drawOval(toPaintX - 5, toPaintY - 5, 10, 10);
+                g.drawLine(toPaintX - 7, toPaintY, toPaintX + 7, toPaintY);
+                g.drawLine(toPaintX, toPaintY - 7, toPaintX, toPaintY + 7);
+                g.drawLine((int) bot.getX(), (int) bot.getY(), toPaintX, toPaintY);
+            }
         }
     }
 }
