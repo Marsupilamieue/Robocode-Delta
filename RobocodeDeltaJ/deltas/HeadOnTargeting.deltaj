@@ -1,0 +1,18 @@
+delta HeadOnTargeting {
+    modifies jab.module.Targeting {
+
+        adds import robocode.util.Utils;
+
+        modifies target() {
+            double enemyX = bot.getEnemyX();
+            double enemyY = bot.getEnemyY();
+            
+            double angle = Utils.normalAbsoluteAngle(
+                Math.atan2(enemyX - bot.getX(), enemyY - bot.getY())
+            );
+            bot.setTurnGunRightRadians(
+                Utils.normalRelativeAngle(angle - bot.getGunHeadingRadians())
+            );
+        }
+    }
+}
