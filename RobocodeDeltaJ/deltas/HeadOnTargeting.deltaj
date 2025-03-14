@@ -4,8 +4,8 @@ delta HeadOnTargeting {
         adds import robocode.util.Utils;
 
         modifies target() {
-            double enemyX = bot.getEnemyX();
-            double enemyY = bot.getEnemyY();
+            double enemyX = bot.getX();
+            double enemyY = bot.getY();
             
             double angle = Utils.normalAbsoluteAngle(
                 Math.atan2(enemyX - bot.getX(), enemyY - bot.getY())
