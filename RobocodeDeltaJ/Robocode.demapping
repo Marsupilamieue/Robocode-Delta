@@ -1,11 +1,23 @@
 "NoMovement":
 <decore/Quiet.decore>
 
+"Cornering":
+<decore/Cornering.decore>
+
 "MouseRadar":
 <decore/MouseRadar.decore>
 
 "MaximumPowerGun":
 <decore/MaximumPowerGun.decore>
+
+"MouseClickGun":
+<decore/MouseClickGun.decore>
+
+"NoFireGun":
+<decore/NoFireGun.decore>
+
+"AdaptiveChargeGun":
+<decore/AdaptiveChargeGun.decore>
 
 "KeyboardMovement":
 <decore/KeyboardMovement.decore>
@@ -13,11 +25,32 @@
 "LinearTargeting":
 <decore/LinearTargeting.decore>
 
+"HeadOnTargeting":
+<decore/HeadOnTargeting.decore>
+
+"MouseTargeting":
+<decore/MouseTargeting.decore>
+
 "WeakestSelectEnemy":
 <decore/WeakestSelectEnemy.decore>
+
+"StrongestSelectEnemy":
+<decore/StrongestSelectEnemy.decore>
+
+"ClosestSelectEnemy":
+<decore/ClosestSelectEnemy.decore>
 
 "SpinningRadar":
 <decore/SpinningRadar.decore>
 
 "Circle":
 <decore/Circle.decore>
+
+"Triangle":
+<decore/Triangle.decore>
+
+"Line":
+<decore/Line.decore>
+
+"RandomTargeting":
+<decore/RandomTargeting.decore>

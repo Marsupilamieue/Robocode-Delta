@@ -1,0 +1,9 @@
+ configuration delta "NoFireGun"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Gun.java>
+		{
+	modifyStatementListContainer(<method:jab.module.Gun.fire()>, "public void fire() {
+	}
+", "NoFireGun", false);
+	}
+	

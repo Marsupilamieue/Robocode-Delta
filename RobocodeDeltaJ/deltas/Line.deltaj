@@ -1,0 +1,10 @@
+delta Line {
+    modifies jab.module.Movement {
+        
+        modifies move() {
+            bot.setMaxVelocity(8);
+            bot.setAhead(100);
+        }
+        
+    }
+}

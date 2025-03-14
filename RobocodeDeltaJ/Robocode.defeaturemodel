@@ -17,6 +17,7 @@
               <features maxCardinality="1" name="Cornering"/>
               <features maxCardinality="1" name="Circle"/>
               <features maxCardinality="1" name="Line"/>
+              <features maxCardinality="1" name="Triangle"/>
             </groups>
           </features>
         </groups>
@@ -26,6 +27,7 @@
           <features maxCardinality="1" name="HeadOnTargeting"/>
           <features maxCardinality="1" name="LinearTargeting"/>
           <features maxCardinality="1" name="MouseTargeting"/>
+          <features maxCardinality="1" name="RandomTargeting"/>
         </groups>
       </features>
       <features maxCardinality="1" name="SelectEnemy">
@@ -40,6 +42,7 @@
           <features maxCardinality="1" name="MaximumPowerGun"/>
           <features maxCardinality="1" name="NoFireGun"/>
           <features maxCardinality="1" name="MouseClickGun"/>
+          <features maxCardinality="1" name="AdaptiveChargeGun"/>
         </groups>
       </features>
     </groups>

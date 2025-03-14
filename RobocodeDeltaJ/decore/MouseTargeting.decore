@@ -1,0 +1,37 @@
+ configuration delta "MouseTargeting"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Targeting.java>
+		{
+	addClassifierImport(<class:jab.module.Targeting>, "java.awt.event.InputEvent");
+	addClassifierImport(<class:jab.module.Targeting>, "java.awt.event.MouseEvent");
+	addClassifierImport(<class:jab.module.Targeting>, "java.awt.Color");
+	addClassifierImport(<class:jab.module.Targeting>, "robocode.util.Utils");
+	addMember(<class:jab.module.Targeting>, "private int aimX;
+");
+	addMember(<class:jab.module.Targeting>, "private int aimY;
+");
+	modifyStatementListContainer(<method:jab.module.Targeting.target()>, "public void target() {
+            double angle = Utils.normalAbsoluteAngle(
+                Math.atan2(aimX - bot.getX(), aimY - bot.getY())
+            );
+            bot.setTurnGunRightRadians(
+                Utils.normalRelativeAngle(angle - bot.getGunHeadingRadians())
+            );
+	}
+", "MouseTargeting", false);
+	addMember(<class:jab.module.Targeting>, "public void listenInput(InputEvent e) {
+            if (e instanceof MouseEvent) {
+                aimX = ((MouseEvent) e).getX();
+                aimY = ((MouseEvent) e).getY();
+            }
+        }
+");
+	addMember(<class:jab.module.Targeting>, "public void onPaint(java.awt.Graphics2D g) {
+            g.setColor(Color.RED);
+            g.drawOval(aimX - 15, aimY - 15,30,30);
+            g.drawLine(aimX, aimY - 4, aimX, aimY + 4);
+            g.drawLine(aimX - 4, aimY, aimX + 4, aimY);
+        }
+");
+	}
+	

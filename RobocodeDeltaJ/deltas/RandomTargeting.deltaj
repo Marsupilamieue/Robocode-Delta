@@ -1,0 +1,65 @@
+delta RandomTargeting {
+
+    modifies jab.module.Targeting {
+
+        adds import java.awt.Color;
+        adds import java.awt.Graphics2D;
+        adds import java.util.Random;
+        adds import robocode.util.Utils;
+
+        adds private Random random = new Random();
+        adds private long lastSeenTime = 0;
+        adds private double lastKnownX = 0;
+        adds private double lastKnownY = 0;
+        adds private double enemyVelocity = 0;
+
+        adds private double calculateOffset() {
+		    double speedFactor = Math.min(1, enemyVelocity / 8.0); 
+		    return (random.nextDouble() - 0.5) * (30 + speedFactor * 50);
+		}
+        modifies target() {
+            double enemyX, enemyY;
+            if (bot.enemy != null) {
+			    enemyX = bot.enemy.x;
+			    enemyY = bot.enemy.y;
+			    lastSeenTime = System.currentTimeMillis();
+			    lastKnownX = enemyX;
+			    lastKnownY = enemyY;
+			    enemyVelocity = bot.enemy.velocity; // Simpan kecepatan musuh
+			} else if (System.currentTimeMillis() - lastSeenTime < 3000) {
+                enemyX = lastKnownX + (random.nextDouble() - 0.5) * 40;
+                enemyY = lastKnownY + (random.nextDouble() - 0.5) * 40;
+            } else {
+                return; // No target available
+            }
+
+            double randomOffsetX = calculateOffset();
+            double randomOffsetY = calculateOffset();
+            
+            double targetX = enemyX + randomOffsetX;
+            double targetY = enemyY + randomOffsetY;
+
+            targetX = Math.min(Math.max(18.0, targetX), bot.getBattleFieldWidth() - 18.0);
+            targetY = Math.min(Math.max(18.0, targetY), bot.getBattleFieldHeight() - 18.0);
+
+            double theta = Utils.normalAbsoluteAngle(Math.atan2(targetX - bot.getX(), targetY - bot.getY()));
+            bot.setTurnGunRightRadians(Utils.normalRelativeAngle(theta - bot.getGunHeadingRadians()));
+
+            toPaintX = (int) targetX;
+            toPaintY = (int) targetY;
+        }
+
+        adds int toPaintX = 0;
+        adds int toPaintY = 0;
+
+        adds public void onPaint(Graphics2D g) {
+            if (bot.enemy != null) {
+                g.setColor(Color.BLUE);
+                g.drawOval(toPaintX - 4, toPaintY - 4, 8, 8);
+                g.drawLine(toPaintX - 6, toPaintY, toPaintX + 6, toPaintY);
+                g.drawLine(toPaintX, toPaintY - 6, toPaintX, toPaintY + 6);
+                g.drawLine((int) bot.getX(), (int) bot.getY(), toPaintX, toPaintY);
+            }
+        }
+    }
+}
