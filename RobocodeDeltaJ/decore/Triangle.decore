@@ -1,0 +1,19 @@
+ configuration delta "Triangle"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Movement.java>
+		{
+	addMember(<class:jab.module.Movement>, "private int step = 0;
+");
+	modifyStatementListContainer(<method:jab.module.Movement.move()>, "public void move() {
+            bot.setMaxVelocity(8);
+            bot.setAhead(100);
+            
+            if (step % 3 == 0) {
+                bot.setTurnRight(120);
+            }
+            
+            step++;
+	}
+", "Triangle", false);
+	}
+	

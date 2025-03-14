@@ -1,11 +1,11 @@
-delta HeadOnTargeting {
-    modifies jab.module.Targeting {
-
-        adds import java.awt.Color;
-        adds import java.awt.Graphics2D;
-        adds import robocode.util.Utils;
-
-        modifies target() {
+ configuration delta "HeadOnTargeting"
+	dialect <http://www.emftext.org/java>
+		modifies <../src/jab/module/Targeting.java>
+		{
+	addClassifierImport(<class:jab.module.Targeting>, "java.awt.Color");
+	addClassifierImport(<class:jab.module.Targeting>, "java.awt.Graphics2D");
+	addClassifierImport(<class:jab.module.Targeting>, "robocode.util.Utils");
+	modifyStatementListContainer(<method:jab.module.Targeting.target()>, "public void target() {
             if (bot.enemy != null) {
                 double enemyX = bot.enemy.x;
                 double enemyY = bot.enemy.y;
@@ -21,19 +21,21 @@ delta HeadOnTargeting {
                 toPaintX = (int) enemyX;
                 toPaintY = (int) enemyY;
             }
-        }
-
-        adds int toPaintX = 0;
-        adds int toPaintY = 0;
-
-        adds public void onPaint(Graphics2D g) {
+	}
+", "HeadOnTargeting", false);
+	addMember(<class:jab.module.Targeting>, "int toPaintX = 0;
+");
+	addMember(<class:jab.module.Targeting>, "int toPaintY = 0;
+");
+	addMember(<class:jab.module.Targeting>, "public void onPaint(Graphics2D g) {
             if (bot.enemy != null) {
                 g.setColor(Color.GREEN);
-                g.drawOval(toPaintX - 5, toPaintY - 5, 10, 10);
+                g.drawOval(toPaintX - 5, toPaintY - 5,10,10);
                 g.drawLine(toPaintX - 7, toPaintY, toPaintX + 7, toPaintY);
                 g.drawLine(toPaintX, toPaintY - 7, toPaintX, toPaintY + 7);
                 g.drawLine((int) bot.getX(), (int) bot.getY(), toPaintX, toPaintY);
             }
         }
-    }
-}
+");
+	}
+	
